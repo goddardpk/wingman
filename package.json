@@ -12,5 +12,17 @@
   "dependencies": {
     "electron": "^28.1.0",
     "sqlite3": "^5.1.7"
-  }
+  },
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/goddardpk/wingman.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/goddardpk/wingman/issues"
+  },
+  "homepage": "https://github.com/goddardpk/wingman#readme"
 }
