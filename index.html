@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WingMan - Your Ride Companion</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1><i class="fas fa-car"></i> WingMan</h1>
+            <nav class="nav-icons">
+                <a href="accounts.html" class="nav-icon"><i class="fas fa-user-circle"></i></a>
+            </nav>
+        </header>
+
+        <main>
+            <div class="location-inputs">
+                <div class="input-group">
+                    <i class="fas fa-circle pickup-icon"></i>
+                    <input type="text" id="pickup" placeholder="Enter pickup location">
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-location-dot destination-icon"></i>
+                    <input type="text" id="destination" placeholder="Enter destination">
+                </div>
+                <div class="quick-locations">
+                    <button class="quick-location-btn">
+                        <i class="fas fa-home"></i> Home
+                    </button>
+                    <button class="quick-location-btn">
+                        <i class="fas fa-building"></i> Work
+                    </button>
+                </div>
+            </div>
+
+            <div class="ride-options">
+                <h2>Select Your Ride</h2>
+                <div class="ride-cards">
+                    <div class="ride-card" data-ride="economy">
+                        <i class="fas fa-car-side"></i>
+                        <div class="ride-details">
+                            <h3>Economy</h3>
+                            <p>Best price, great value</p>
+                            <span class="price">From $12</span>
+                        </div>
+                    </div>
+                    <div class="ride-card" data-ride="comfort">
+                        <i class="fas fa-car"></i>
+                        <div class="ride-details">
+                            <h3>Comfort</h3>
+                            <p>More space, extra comfort</p>
+                            <span class="price">From $18</span>
+                        </div>
+                    </div>
+                    <div class="ride-card" data-ride="premium">
+                        <i class="fas fa-car-luxury"></i>
+                        <div class="ride-details">
+                            <h3>Premium</h3>
+                            <p>Luxury vehicles, top service</p>
+                            <span class="price">From $25</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button id="book-ride" class="book-button">
+                Book Your Ride
+            </button>
+
+            <div id="status-message" class="status-message"></div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

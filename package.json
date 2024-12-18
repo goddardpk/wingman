@@ -1,0 +1,16 @@
+{
+  "name": "wingman",
+  "version": "1.0.0",
+  "description": "Wingman Driver Management System",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --debug"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^28.1.0",
+    "sqlite3": "^5.1.7"
+  }
+}

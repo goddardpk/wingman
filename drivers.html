@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WingMan - Driver Status</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1><i class="fas fa-car"></i> WingMan</h1>
+        </header>
+
+        <main>
+            <div class="location-inputs">
+                <div class="input-group">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="driver-search" placeholder="Search drivers by name or ID">
+                </div>
+                <div class="quick-locations">
+                    <button class="quick-location-btn">
+                        <i class="fas fa-circle"></i> Active
+                    </button>
+                    <button class="quick-location-btn">
+                        <i class="fas fa-pause-circle"></i> On Break
+                    </button>
+                </div>
+            </div>
+
+            <div class="ride-options">
+                <h2>Active Drivers</h2>
+                <div class="ride-cards">
+                    <div class="ride-card">
+                        <i class="fas fa-user-circle"></i>
+                        <div class="ride-details">
+                            <h3>John Smith</h3>
+                            <p>ID: #12345 • Economy</p>
+                            <span class="status-badge active">Active - In Ride</span>
+                        </div>
+                    </div>
+                    <div class="ride-card">
+                        <i class="fas fa-user-circle"></i>
+                        <div class="ride-details">
+                            <h3>Sarah Johnson</h3>
+                            <p>ID: #12346 • Comfort</p>
+                            <span class="status-badge available">Available</span>
+                        </div>
+                    </div>
+                    <div class="ride-card">
+                        <i class="fas fa-user-circle"></i>
+                        <div class="ride-details">
+                            <h3>Mike Wilson</h3>
+                            <p>ID: #12347 • Premium</p>
+                            <span class="status-badge break">On Break</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button id="refresh-status" class="book-button">
+                Refresh Status
+            </button>
+
+            <div id="status-message" class="status-message"></div>
+        </main>
+    </div>
+    <script src="drivers.js"></script>
+</body>
+</html>
