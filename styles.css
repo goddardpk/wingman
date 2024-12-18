@@ -80,6 +80,7 @@ header {
     display: flex;
     align-items: center;
     gap: 6px;
+    white-space: nowrap;
 }
 
 .nav-item:hover {
@@ -265,6 +266,12 @@ header {
     color: #FF9800;
 }
 
+@media (min-width: 481px) {
+    .menu-container .main-nav {
+        display: flex !important;
+    }
+}
+
 @media (max-width: 480px) {
     .app-container {
         padding: 15px;
@@ -296,6 +303,7 @@ header {
         gap: 5px;
         min-width: 200px;
         margin-top: 10px;
+        z-index: 1000;
     }
 
     .menu-container .main-nav.show {
