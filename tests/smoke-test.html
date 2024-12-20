@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wingman Smoke Tests</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .feature-list {
+        list-style: none;
+        padding: 0;
+      }
+
+      .feature-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+        padding: 10px;
+        background-color: #fff;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .feature-name {
+        flex-grow: 1;
+      }
+
+      .status {
+        margin: 0 10px;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.9em;
+      }
+
+      .status.not-implemented {
+        background-color: #e0e0e0;
+        color: #666;
+      }
+
+      .status.passed {
+        background-color: #c8e6c9;
+        color: #2e7d32;
+      }
+
+      .status.failed {
+        background-color: #ffcdd2;
+        color: #c62828;
+      }
+
+      .test-button {
+        padding: 5px 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.2s;
+        background-color: #bbdefb;
+        color: #1976d2;
+      }
+
+      .test-button:hover {
+        opacity: 0.9;
+      }
+
+      .feature-section {
+        margin-bottom: 30px;
+      }
+
+      .feature-section h2 {
+        color: #333;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Wingman Smoke Tests</h1>
+      <p class="test-type">Core Functionality Verification</p>
+
+      <div class="feature-section">
+        <h2>Authentication & Account Management</h2>
+        <ul class="feature-list">
+          <li class="feature-item" data-feature-id="login">
+            <span class="feature-name">User Login</span>
+            <span class="status not-implemented">Not Implemented</span>
+            <button class="test-button" onclick="goToTest('basic')">
+              Test
+            </button>
+          </li>
+          <li class="feature-item" data-feature-id="registration">
+            <span class="feature-name">User Registration</span>
+            <span class="status not-implemented">Not Implemented</span>
+            <button class="test-button" onclick="goToTest('basic')">
+              Test
+            </button>
+          </li>
+          <li class="feature-item" data-feature-id="profile">
+            <span class="feature-name">Profile Management</span>
+            <span class="status not-implemented">Not Implemented</span>
+            <button class="test-button" onclick="goToTest('basic')">
+              Test
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <div class="feature-section">
+        <h2>Core Ride Operations</h2>
+        <ul class="feature-list">
+          <li class="feature-item" data-feature-id="ride-request">
+            <span class="feature-name">Request Ride</span>
+            <span class="status not-implemented">Not Implemented</span>
+            <button class="test-button" onclick="goToTest('rider-request')">
+              Test
+            </button>
+          </li>
+          <li class="feature-item" data-feature-id="ride-accept">
+            <span class="feature-name">Accept Ride</span>
+            <span class="status not-implemented">Not Implemented</span>
+            <button class="test-button" onclick="goToTest('rider-request')">
+              Test
+            </button>
+          </li>
+          <li class="feature-item" data-feature-id="ride-complete">
+            <span class="feature-name">Complete Ride</span>
+            <span class="status not-implemented">Not Implemented</span>
+            <button class="test-button" onclick="goToTest('rider-request')">
+              Test
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <div class="feature-section">
+        <h2>Driver Operations</h2>
+        <ul class="feature-list">
+          <li class="feature-item" data-feature-id="driver-status">
+            <span class="feature-name">Driver Status Toggle</span>
+            <span class="status not-implemented">Not Implemented</span>
+            <button class="test-button" onclick="goToTest('basic')">
+              Test
+            </button>
+          </li>
+          <li class="feature-item" data-feature-id="driver-location">
+            <span class="feature-name">Location Updates</span>
+            <span class="status not-implemented">Not Implemented</span>
+            <button class="test-button" onclick="goToTest('basic')">
+              Test
+            </button>
+          </li>
+          <li class="feature-item" data-feature-id="driver-earnings">
+            <span class="feature-name">Earnings Display</span>
+            <span class="status not-implemented">Not Implemented</span>
+            <button class="test-button" onclick="goToTest('basic')">
+              Test
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <div class="feature-section">
+        <h2>API Functionality</h2>
+        <ul class="feature-list">
+          <li class="feature-item" data-feature-id="api-auth">
+            <span class="feature-name">API Authentication</span>
+            <span class="status not-implemented">Not Implemented</span>
+            <button class="test-button" onclick="goToTest('api-test')">
+              Test
+            </button>
+          </li>
+          <li class="feature-item" data-feature-id="api-requests">
+            <span class="feature-name">API Requests/Responses</span>
+            <span class="status not-implemented">Not Implemented</span>
+            <button class="test-button" onclick="goToTest('api-test')">
+              Test
+            </button>
+          </li>
+          <li class="feature-item" data-feature-id="api-errors">
+            <span class="feature-name">Error Handling</span>
+            <span class="status not-implemented">Not Implemented</span>
+            <button class="test-button" onclick="goToTest('api-test')">
+              Test
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <div class="feature-section">
+        <h2>Basic Navigation</h2>
+        <ul class="feature-list">
+          <li class="feature-item" data-feature-id="nav-home">
+            <span class="feature-name">Home Page Navigation</span>
+            <span class="status not-implemented">Not Implemented</span>
+            <button class="test-button" onclick="goToTest('basic')">
+              Test
+            </button>
+          </li>
+          <li class="feature-item" data-feature-id="nav-profile">
+            <span class="feature-name">Profile Navigation</span>
+            <span class="status not-implemented">Not Implemented</span>
+            <button class="test-button" onclick="goToTest('basic')">
+              Test
+            </button>
+          </li>
+          <li class="feature-item" data-feature-id="nav-settings">
+            <span class="feature-name">Settings Navigation</span>
+            <span class="status not-implemented">Not Implemented</span>
+            <button class="test-button" onclick="goToTest('basic')">
+              Test
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <script src="smoke-test.js"></script>
+  </body>
+</html>
