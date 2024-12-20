@@ -1,83 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>WingMan - Account Settings</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
-<body>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
     <div class="app-container">
-        <header>
-            <h1><i class="fas fa-user-circle"></i> Account Settings</h1>
-        </header>
+      <header>
+        <h1><i class="fas fa-user-circle"></i> Account Settings</h1>
+      </header>
 
-        <main>
-            <div class="location-inputs">
-                <div class="input-group">
-                    <i class="fas fa-user"></i>
-                    <input type="text" id="fullName" placeholder="Full Name">
-                </div>
-                <div class="input-group">
-                    <i class="fas fa-envelope"></i>
-                    <input type="email" id="email" placeholder="Email Address">
-                </div>
-                <div class="input-group">
-                    <i class="fas fa-phone"></i>
-                    <input type="tel" id="phone" placeholder="Phone Number">
-                </div>
+      <main>
+        <div class="location-inputs">
+          <div class="input-group">
+            <i class="fas fa-user"></i>
+            <input type="text" id="fullName" placeholder="Full Name" />
+          </div>
+          <div class="input-group">
+            <i class="fas fa-envelope"></i>
+            <input type="email" id="email" placeholder="Email Address" />
+          </div>
+          <div class="input-group">
+            <i class="fas fa-phone"></i>
+            <input type="tel" id="phone" placeholder="Phone Number" />
+          </div>
+        </div>
+
+        <div class="ride-options">
+          <h2>Payment Methods</h2>
+          <div class="ride-cards">
+            <div class="ride-card" data-payment="card">
+              <i class="fas fa-credit-card"></i>
+              <div class="ride-details">
+                <h3>Credit Card</h3>
+                <p>**** **** **** 1234</p>
+                <span class="price">Primary</span>
+              </div>
             </div>
-
-            <div class="ride-options">
-                <h2>Payment Methods</h2>
-                <div class="ride-cards">
-                    <div class="ride-card" data-payment="card">
-                        <i class="fas fa-credit-card"></i>
-                        <div class="ride-details">
-                            <h3>Credit Card</h3>
-                            <p>**** **** **** 1234</p>
-                            <span class="price">Primary</span>
-                        </div>
-                    </div>
-                    <div class="ride-card" data-payment="paypal">
-                        <i class="fab fa-paypal"></i>
-                        <div class="ride-details">
-                            <h3>PayPal</h3>
-                            <p>user@email.com</p>
-                            <span class="price">Connected</span>
-                        </div>
-                    </div>
-                </div>
+            <div class="ride-card" data-payment="paypal">
+              <i class="fab fa-paypal"></i>
+              <div class="ride-details">
+                <h3>PayPal</h3>
+                <p>user@email.com</p>
+                <span class="price">Connected</span>
+              </div>
             </div>
+          </div>
+        </div>
 
-            <div class="ride-options">
-                <h2>Preferences</h2>
-                <div class="ride-cards">
-                    <div class="ride-card">
-                        <i class="fas fa-bell"></i>
-                        <div class="ride-details">
-                            <h3>Notifications</h3>
-                            <p>Manage your notification settings</p>
-                        </div>
-                    </div>
-                    <div class="ride-card">
-                        <i class="fas fa-language"></i>
-                        <div class="ride-details">
-                            <h3>Language</h3>
-                            <p>Choose your preferred language</p>
-                        </div>
-                    </div>
-                </div>
+        <div class="ride-options">
+          <h2>Preferences</h2>
+          <div class="ride-cards">
+            <div class="ride-card">
+              <i class="fas fa-bell"></i>
+              <div class="ride-details">
+                <h3>Notifications</h3>
+                <p>Manage your notification settings</p>
+              </div>
             </div>
+            <div class="ride-card">
+              <i class="fas fa-language"></i>
+              <div class="ride-details">
+                <h3>Language</h3>
+                <p>Choose your preferred language</p>
+              </div>
+            </div>
+          </div>
+        </div>
 
-            <button id="save-settings" class="book-button">
-                Save Changes
-            </button>
+        <button id="save-settings" class="book-button">Save Changes</button>
 
-            <div id="status-message" class="status-message"></div>
-        </main>
+        <div id="status-message" class="status-message"></div>
+      </main>
     </div>
+    <script src="accountsApi.js"></script>
     <script src="accounts.js"></script>
-</body>
+  </body>
 </html>

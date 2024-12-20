@@ -7,7 +7,7 @@
     "start": "electron .",
     "dev": "electron . --inspect",
     "api": "node api-server.js",
-    "init-db": "sqlite3 wingman.db < tests/scenarios/api-test/schema.sql"
+    "init-db": "node init-db.js"
   },
   "author": "",
   "license": "ISC",

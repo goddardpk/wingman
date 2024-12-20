@@ -4,6 +4,38 @@ const db = new sqlite3.Database('wingman.db');
 
 const dbOperations = {
     // Account operations
+    createAccount: (data) => {
+        return new Promise((resolve, reject) => {
+            db.run(
+                `INSERT INTO accounts (email, full_name, phone, created_at, updated_at) 
+                 VALUES (?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`,
+                [data.email, data.fullName, data.phone],
+                function(err) {
+                    if (err) {
+                        if (err.message.includes('UNIQUE constraint failed')) {
+                            reject(new Error('Email already exists'));
+                        } else {
+                            reject(err);
+                        }
+                        return;
+                    }
+                    // Return the created account
+                    db.get(
+                        `SELECT a.*, ap.notifications_enabled, ap.preferred_language 
+                         FROM accounts a 
+                         LEFT JOIN account_preferences ap ON a.id = ap.account_id 
+                         WHERE a.id = ?`,
+                        [this.lastID],
+                        (err, row) => {
+                            if (err) reject(err);
+                            resolve(row);
+                        }
+                    );
+                }
+            );
+        });
+    },
+
     getAccount: (email) => {
         return new Promise((resolve, reject) => {
             db.get(
@@ -14,6 +46,7 @@ const dbOperations = {
                 [email], 
                 (err, row) => {
                     if (err) reject(err);
+                    if (!row) reject(new Error('Account not found'));
                     resolve(row);
                 }
             );
@@ -29,7 +62,42 @@ const dbOperations = {
                 [data.fullName, data.phone, email],
                 function(err) {
                     if (err) reject(err);
-                    resolve({ changes: this.changes });
+                    if (this.changes === 0) {
+                        reject(new Error('Account not found'));
+                        return;
+                    }
+                    // Return updated account
+                    db.get(
+                        `SELECT a.*, ap.notifications_enabled, ap.preferred_language 
+                         FROM accounts a 
+                         LEFT JOIN account_preferences ap ON a.id = ap.account_id 
+                         WHERE a.email = ?`,
+                        [email],
+                        (err, row) => {
+                            if (err) reject(err);
+                            resolve(row);
+                        }
+                    );
+                }
+            );
+        });
+    },
+
+    deleteAccount: (email) => {
+        return new Promise((resolve, reject) => {
+            db.run(
+                'DELETE FROM accounts WHERE email = ?',
+                [email],
+                function(err) {
+                    if (err) {
+                        reject(err);
+                        return;
+                    }
+                    if (this.changes === 0) {
+                        reject(new Error('Account not found'));
+                        return;
+                    }
+                    resolve({ deleted: true });
                 }
             );
         });

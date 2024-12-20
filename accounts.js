@@ -1,5 +1,3 @@
-const db = require('./db');
-
 document.addEventListener('DOMContentLoaded', async function () {
     const saveButton = document.getElementById('save-settings');
     const statusMessage = document.getElementById('status-message');
@@ -9,14 +7,14 @@ document.addEventListener('DOMContentLoaded', async function () {
     const userEmail = localStorage.getItem('userEmail');
     if (userEmail) {
         try {
-            const userData = await db.getAccount(userEmail);
+            const userData = await accountsApi.getAccount(userEmail);
             if (userData) {
                 document.getElementById('fullName').value = userData.full_name;
                 document.getElementById('email').value = userData.email;
                 document.getElementById('phone').value = userData.phone;
                 
                 // Load payment methods
-                const paymentMethods = await db.getPaymentMethods(userData.id);
+                const paymentMethods = await accountsApi.getPaymentMethods(userData.id);
                 updatePaymentMethodsDisplay(paymentMethods);
             }
         } catch (err) {
@@ -44,8 +42,13 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
 
         try {
-            await db.updateAccount(email, { fullName, phone });
+            await accountsApi.updateAccount(email, { fullName, phone });
             showStatus('Settings saved successfully!', 'success');
+            
+            // Update stored email if it changed
+            if (email !== userEmail) {
+                localStorage.setItem('userEmail', email);
+            }
         } catch (err) {
             showStatus('Error saving settings', 'error');
         }
