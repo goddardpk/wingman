@@ -1,5 +1,5 @@
-// API Test Suite for Ride Requests using stubs
-class RideRequestTests {
+// Unit Tests for Ride Requests API using stubs
+class RideRequestUnitTests {
     constructor() {
         this.baseUrl = 'http://localhost:3000/api';
         this.testResults = [];
@@ -265,6 +265,6 @@ class RideRequestTests {
 
 // Initialize and run tests when page loads
 window.onload = () => {
-    const tests = new RideRequestTests();
+    const tests = new RideRequestUnitTests();
     tests.runTests();
 };

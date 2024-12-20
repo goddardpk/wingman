@@ -18,7 +18,37 @@ body {
 h1 {
     color: #333;
     text-align: center;
+    margin-bottom: 10px;
+}
+
+.test-type {
+    text-align: center;
+    color: #666;
+    font-style: italic;
     margin-bottom: 30px;
+}
+
+.setup-info {
+    background-color: #fff3e0;
+    padding: 20px;
+    border-radius: 4px;
+    margin-bottom: 30px;
+    border-left: 4px solid #ff9800;
+}
+
+.setup-info h2 {
+    color: #f57c00;
+    margin-top: 0;
+}
+
+.setup-info code {
+    background-color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-family: monospace;
+    display: inline-block;
+    margin: 4px 0;
+    border: 1px solid #ddd;
 }
 
 .test-results {
@@ -58,4 +88,22 @@ h1 {
     padding: 8px;
     border-radius: 4px;
     margin-top: 10px;
+}
+
+.setup-warning {
+    background-color: #fff3e0;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    border-left: 4px solid #ff9800;
+}
+
+.setup-warning h3 {
+    color: #f57c00;
+    margin-top: 0;
+}
+
+.setup-warning ul {
+    margin: 10px 0;
+    padding-left: 20px;
 }

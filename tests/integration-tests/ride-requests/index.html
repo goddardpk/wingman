@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ride Request API Integration Tests</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Ride Request API Integration Tests</h1>
+      <p class="test-type">Using real API calls and database</p>
+      <div class="setup-info">
+        <h2>⚠️ Required Setup</h2>
+        <p>Before running these integration tests, ensure:</p>
+        <ol>
+          <li>
+            Database is initialized:
+            <code>npm run init-db</code>
+          </li>
+          <li>
+            API server is running:
+            <code>npm run api</code>
+          </li>
+        </ol>
+      </div>
+      <div id="testResults" class="test-results">
+        <p>Running tests...</p>
+      </div>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
