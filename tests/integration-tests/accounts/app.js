@@ -122,9 +122,10 @@ class AccountIntegrationTests {
             // Assertions
             this.assert(response.status === 204, 'Should return 204 status');
 
-            // Verify deletion
+            // Verify deletion - 404 is expected here
+            console.log('Verifying account deletion...');
             const getResponse = await fetch(`${this.baseUrl}/accounts/${encodeURIComponent(this.testEmail)}`);
-            this.assert(getResponse.status === 404, 'Deleted account should not be found');
+            this.assert(getResponse.status === 404, 'Deleted account should return 404');
 
             this.logResult('Delete Account', 'Passed');
         } catch (error) {
@@ -137,7 +138,24 @@ class AccountIntegrationTests {
     async testCreateDuplicateAccount() {
         try {
             console.log('Running create duplicate account test...');
-            const accountData = {
+            
+            // First create a new account
+            const initialAccount = {
+                email: this.testEmail,
+                fullName: "Initial User",
+                phone: "555-0123"
+            };
+
+            await fetch(`${this.baseUrl}/accounts`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(initialAccount)
+            });
+
+            // Try to create duplicate account
+            const duplicateAccount = {
                 email: this.testEmail,
                 fullName: "Duplicate User",
                 phone: "555-0000"
@@ -148,12 +166,15 @@ class AccountIntegrationTests {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(accountData)
+                body: JSON.stringify(duplicateAccount)
             });
+
+            console.log('Duplicate creation response status:', response.status);
+            const data = await response.json();
+            console.log('Duplicate creation response:', data);
 
             // Assertions
             this.assert(response.status === 409, 'Should return 409 Conflict status');
-            const data = await response.json();
             this.assert(data.error === 'Email already exists', 'Should return appropriate error message');
 
             this.logResult('Create Duplicate Account', 'Passed');
@@ -193,7 +214,7 @@ class AccountIntegrationTests {
             resultsDiv.appendChild(resultElement);
         });
 
-        // Add warning about required setup
+        // Add warning about required setup if any tests failed
         if (this.testResults.some(result => result.status === 'Failed')) {
             const setupWarning = document.createElement('div');
             setupWarning.className = 'setup-warning';
