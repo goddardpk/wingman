@@ -16,8 +16,13 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// Close menu when nav item is clicked
-mainNav.addEventListener('click', () => {
+// Handle navigation item clicks
+mainNav.addEventListener('click', (e) => {
+    const helpLink = e.target.closest('a[href="help.html"]');
+    if (helpLink) {
+        e.preventDefault();
+        window.location.href = 'help.html';
+    }
     mainNav.classList.remove('show');
 });
 
@@ -418,65 +423,75 @@ class AddressAutocomplete {
 }
 
 // Initialize autocomplete for pickup and destination inputs
-const pickupAutocomplete = new AddressAutocomplete(document.getElementById('pickup'));
-const destinationAutocomplete = new AddressAutocomplete(document.getElementById('destination'));
+const pickupInput = document.getElementById('pickup');
+const destinationInput = document.getElementById('destination');
 
-// Ride selection functionality
-const rideCards = document.querySelectorAll('.ride-card');
-const bookButton = document.getElementById('book-ride');
-const statusMessage = document.getElementById('status-message');
-let selectedRide = null;
+if (pickupInput && destinationInput) {
+    const pickupAutocomplete = new AddressAutocomplete(pickupInput);
+    const destinationAutocomplete = new AddressAutocomplete(destinationInput);
 
-rideCards.forEach(card => {
-    card.addEventListener('click', () => {
-        rideCards.forEach(c => c.classList.remove('selected'));
-        card.classList.add('selected');
-        selectedRide = card.dataset.ride;
-    });
-});
+    // Ride selection functionality
+    const rideCards = document.querySelectorAll('.ride-card');
+    const bookButton = document.getElementById('book-ride');
+    const statusMessage = document.getElementById('status-message');
+    let selectedRide = null;
 
-bookButton.addEventListener('click', () => {
-    if (!isLoggedIn) {
-        showStatus('Please login to book a ride', 'error');
-        loginModal.classList.add('show');
-        return;
-    }
-
-    const pickupLocation = pickupAutocomplete.getSelectedLocation();
-    const destinationLocation = destinationAutocomplete.getSelectedLocation();
-
-    if (!pickupLocation || !destinationLocation) {
-        showStatus('Please select valid pickup and destination locations from the suggestions.', 'error');
-        return;
-    }
-
-    if (!selectedRide) {
-        showStatus('Please select a ride option.', 'error');
-        return;
-    }
-
-    console.log('Booking ride with coordinates:', {
-        pickup: {
-            lat: pickupLocation.lat,
-            lon: pickupLocation.lon,
-            address: pickupLocation.name
-        },
-        destination: {
-            lat: destinationLocation.lat,
-            lon: destinationLocation.lon,
-            address: destinationLocation.name
-        },
-        rideType: selectedRide
+    rideCards.forEach(card => {
+        card.addEventListener('click', () => {
+            rideCards.forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            selectedRide = card.dataset.ride;
+        });
     });
 
-    showStatus('Booking successful! Your ride is on the way.', 'success');
-});
+    if (bookButton) {
+        bookButton.addEventListener('click', () => {
+            if (!isLoggedIn) {
+                showStatus('Please login to book a ride', 'error');
+                loginModal.classList.add('show');
+                return;
+            }
+
+            const pickupLocation = pickupAutocomplete.getSelectedLocation();
+            const destinationLocation = destinationAutocomplete.getSelectedLocation();
+
+            if (!pickupLocation || !destinationLocation) {
+                showStatus('Please select valid pickup and destination locations from the suggestions.', 'error');
+                return;
+            }
+
+            if (!selectedRide) {
+                showStatus('Please select a ride option.', 'error');
+                return;
+            }
+
+            console.log('Booking ride with coordinates:', {
+                pickup: {
+                    lat: pickupLocation.lat,
+                    lon: pickupLocation.lon,
+                    address: pickupLocation.name
+                },
+                destination: {
+                    lat: destinationLocation.lat,
+                    lon: destinationLocation.lon,
+                    address: destinationLocation.name
+                },
+                rideType: selectedRide
+            });
+
+            showStatus('Booking successful! Your ride is on the way.', 'success');
+        });
+    }
+}
 
 function showStatus(message, type) {
-    statusMessage.textContent = message;
-    statusMessage.className = 'status-message ' + type;
-    
-    setTimeout(() => {
-        statusMessage.className = 'status-message';
-    }, 5000);
+    const statusMessage = document.getElementById('status-message');
+    if (statusMessage) {
+        statusMessage.textContent = message;
+        statusMessage.className = 'status-message ' + type;
+        
+        setTimeout(() => {
+            statusMessage.className = 'status-message';
+        }, 5000);
+    }
 }

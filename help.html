@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WingMan Help - Your Ride Companion</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <style>
+      .help-section {
+        background-color: var(--secondary-bg);
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 20px;
+      }
+
+      .help-section h2 {
+        margin-top: 0;
+        color: var(--accent-color);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .wingman-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .wingman-item {
+        background: var(--primary-bg);
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .wingman-item i {
+        color: var(--accent-color);
+        font-size: 20px;
+      }
+
+      .ai-prompt {
+        background: var(--primary-bg);
+        border: none;
+        border-radius: 8px;
+        padding: 15px;
+        width: 100%;
+        color: var(--text-primary);
+        font-size: 16px;
+        margin-top: 12px;
+        box-sizing: border-box;
+      }
+
+      .ai-prompt:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+      }
+
+      .send-prompt {
+        background: var(--accent-color);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 12px 24px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .send-prompt:hover {
+        background-color: #45a049;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-container">
+      <header>
+        <div class="header-content">
+          <div class="logo">
+            <h1><i class="fas fa-car"></i> WingMan</h1>
+          </div>
+          <div class="menu-container">
+            <button class="menu-toggle">
+              <i class="fas fa-bars"></i>
+            </button>
+            <nav class="main-nav">
+              <a href="#" class="nav-item" id="login-button"
+                ><i class="fas fa-sign-in-alt"></i> Login</a
+              >
+              <a href="#" class="nav-item"
+                ><i class="fas fa-user-plus"></i> Sign Up</a
+              >
+              <a href="help.html" class="nav-item active"
+                ><i class="fas fa-question-circle"></i> Help</a
+              >
+              <a href="accounts.html" class="nav-item"
+                ><i class="fas fa-user-circle"></i> Account</a
+              >
+            </nav>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <div class="help-section">
+          <h2><i class="fas fa-users"></i> Available Wingman</h2>
+          <ul class="wingman-list">
+            <li class="wingman-item">
+              <i class="fas fa-star"></i>
+              <div>
+                <h3>John D.</h3>
+                <p>Downtown Area - Available 24/7</p>
+              </div>
+            </li>
+            <li class="wingman-item">
+              <i class="fas fa-star"></i>
+              <div>
+                <h3>Sarah M.</h3>
+                <p>Airport Zone - Available 6AM-10PM</p>
+              </div>
+            </li>
+            <li class="wingman-item">
+              <i class="fas fa-star"></i>
+              <div>
+                <h3>Mike R.</h3>
+                <p>Suburban Area - Available Weekends</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="help-section">
+          <h2><i class="fas fa-info-circle"></i> Quick Information</h2>
+          <div class="info-content">
+            <h3>Booking a Ride</h3>
+            <p>
+              Enter your pickup and destination locations, select your preferred
+              ride type, and click "Book Your Ride".
+            </p>
+
+            <h3>Payment Methods</h3>
+            <p>
+              We accept all major credit cards, digital wallets, and corporate
+              accounts.
+            </p>
+
+            <h3>Cancellation Policy</h3>
+            <p>
+              Free cancellation within 5 minutes of booking. Standard fees apply
+              after this period.
+            </p>
+          </div>
+        </div>
+
+        <div class="help-section">
+          <h2><i class="fas fa-robot"></i> AI Assistant</h2>
+          <p>Have a specific question? Ask our AI assistant for help!</p>
+          <textarea
+            class="ai-prompt"
+            placeholder="Type your question here..."
+            rows="3"
+          ></textarea>
+          <button class="send-prompt">
+            <i class="fas fa-paper-plane"></i>
+            Send Question
+          </button>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      // Toggle menu functionality
+      document.querySelector(".menu-toggle").addEventListener("click", () => {
+        document.querySelector(".main-nav").classList.toggle("show");
+      });
+
+      // Close menu when clicking outside
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest(".menu-container")) {
+          document.querySelector(".main-nav").classList.remove("show");
+        }
+      });
+
+      // AI prompt handling
+      document.querySelector(".send-prompt").addEventListener("click", () => {
+        const prompt = document.querySelector(".ai-prompt").value;
+        if (prompt.trim()) {
+          // TODO: Implement AI prompt handling
+          alert("AI response feature coming soon!");
+        }
+      });
+    </script>
+  </body>
+</html>
