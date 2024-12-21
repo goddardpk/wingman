@@ -35,6 +35,83 @@ body {
     padding: 20px;
 }
 
+/* Header and Navigation */
+header {
+    background: var(--menu-bg);
+    padding: 10px 0;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.menu-container {
+    position: relative;
+}
+
+.menu-toggle {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 24px;
+    cursor: pointer;
+    padding: 8px;
+    display: none;
+}
+
+.main-nav {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-item {
+    color: var(--text-primary);
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.nav-item.active {
+    background-color: var(--accent-color);
+}
+
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+
+    .main-nav {
+        display: none;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: var(--menu-bg);
+        border-radius: 4px;
+        padding: 8px;
+        flex-direction: column;
+        gap: 8px;
+        min-width: 200px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .main-nav.show {
+        display: flex;
+    }
+}
+
 /* Retro Theme Styles */
 .retro-theme {
     font-family: 'Courier New', monospace;
