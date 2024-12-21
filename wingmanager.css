@@ -1,0 +1,257 @@
+/* Import base styles */
+@import 'base.css';
+
+:root {
+    --retro-green: #00ff00;
+    --retro-red: #ff0000;
+    --monitor-glow: 0 0 10px rgba(0, 255, 0, 0.2);
+}
+
+/* Retro Theme Styles */
+.retro-theme {
+    font-family: 'Courier New', monospace;
+}
+
+.retro-monitor {
+    background-color: #000;
+    border: 3px solid #333;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: var(--monitor-glow);
+    position: relative;
+    min-height: 500px;
+}
+
+.monitor-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid var(--retro-green);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    color: var(--retro-green);
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+}
+
+.zone-display, .status-display {
+    font-size: 18px;
+    letter-spacing: 2px;
+}
+
+.zone-label, .status-label {
+    margin-right: 10px;
+    opacity: 0.8;
+}
+
+.zone-value, .status-value {
+    font-weight: bold;
+}
+
+.request-queue {
+    margin-top: 20px;
+}
+
+.queue-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.queue-header h2 {
+    color: var(--retro-green);
+    font-size: 24px;
+    margin: 0;
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+}
+
+.queue-stats {
+    display: flex;
+    gap: 20px;
+    color: var(--retro-green);
+    font-size: 16px;
+}
+
+.stat-value {
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+.request-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.request-item {
+    background: rgba(0, 255, 0, 0.05);
+    border: 1px solid var(--retro-green);
+    padding: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    color: var(--retro-green);
+    position: relative;
+}
+
+.request-item:hover {
+    background: rgba(0, 255, 0, 0.1);
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+    transform: translateX(5px);
+}
+
+.request-details {
+    flex-grow: 1;
+}
+
+.request-id {
+    font-size: 14px;
+    opacity: 0.7;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+.request-locations {
+    margin: 10px 0;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.request-locations div {
+    margin-bottom: 5px;
+}
+
+.request-info {
+    display: flex;
+    gap: 20px;
+    font-size: 14px;
+    opacity: 0.8;
+    margin-top: 10px;
+}
+
+.request-time, .request-distance {
+    display: flex;
+    align-items: center;
+}
+
+.request-price {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--retro-green);
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
+    padding-left: 20px;
+    border-left: 1px solid rgba(0, 255, 0, 0.3);
+}
+
+/* Retro Modal */
+.retro-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+}
+
+.retro-modal.show {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.retro-modal-content {
+    background: #000;
+    border: 2px solid var(--retro-green);
+    border-radius: 10px;
+    padding: 20px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--retro-green);
+    padding-bottom: 10px;
+}
+
+.modal-header h3 {
+    color: var(--retro-green);
+    margin: 0;
+    font-size: 20px;
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    color: var(--retro-green);
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+}
+
+.modal-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.action-btn {
+    background: none;
+    border: 1px solid var(--retro-green);
+    color: var(--retro-green);
+    padding: 15px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 1px;
+}
+
+.action-btn:hover {
+    background: rgba(0, 255, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+    transform: translateX(5px);
+}
+
+.action-btn i {
+    font-size: 14px;
+}
+
+.accept-btn {
+    border-color: var(--retro-green);
+    color: var(--retro-green);
+}
+
+.decline-btn {
+    border-color: var(--retro-red);
+    color: var(--retro-red);
+}
+
+.delegate-btn {
+    border-color: #00ffff;
+    color: #00ffff;
+}
+
+/* Logo styles for retro theme */
+.logo h1 {
+    color: var(--retro-green);
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+}
+
+.logo i {
+    color: var(--retro-green);
+}
