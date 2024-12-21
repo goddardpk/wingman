@@ -3,6 +3,20 @@ const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('wingman.db');
 
 const dbOperations = {
+    // Vehicle type operations
+    getVehicleTypes: () => {
+        return new Promise((resolve, reject) => {
+            db.all(
+                'SELECT * FROM vehicle_types ORDER BY base_fare',
+                [],
+                (err, rows) => {
+                    if (err) reject(err);
+                    resolve(rows);
+                }
+            );
+        });
+    },
+
     // Account operations
     createAccount: (data) => {
         return new Promise((resolve, reject) => {

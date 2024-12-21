@@ -6,6 +6,16 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Vehicle Types endpoint
+app.get('/api/vehicle-types', async (req, res) => {
+    try {
+        const vehicleTypes = await dbOperations.getVehicleTypes();
+        res.json(vehicleTypes);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 // Account endpoints
 app.post('/api/accounts', async (req, res) => {
     try {

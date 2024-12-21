@@ -3,10 +3,12 @@ class RideRequestIntegrationTests {
     constructor() {
         this.baseUrl = 'http://localhost:3000/api';
         this.testResults = [];
+        this.featureName = 'Real-time assistance matching';
     }
 
     async runTests() {
         try {
+            await this.testGetVehicleTypes();
             await this.testCreateRideRequest();
             await this.testGetRideRequest();
             await this.testUpdateRideRequest();
@@ -16,6 +18,34 @@ class RideRequestIntegrationTests {
             console.error('Test suite failed:', error);
             this.logResult('Test Suite', 'Failed', error.message);
             this.displayResults();
+        }
+    }
+
+    async testGetVehicleTypes() {
+        try {
+            const response = await fetch(`${this.baseUrl}/vehicle-types`);
+            
+            // Test response status
+            this.assert(response.status === 200, 'Should return 200 status');
+            
+            const vehicleTypes = await response.json();
+            
+            // Test response structure
+            this.assert(Array.isArray(vehicleTypes), 'Response should be an array');
+            this.assert(vehicleTypes.length > 0, 'Should return at least one vehicle type');
+            
+            // Test first vehicle type has all required properties
+            const firstType = vehicleTypes[0];
+            this.assert(typeof firstType.id === 'number', 'Vehicle type should have numeric id');
+            this.assert(typeof firstType.name === 'string', 'Vehicle type should have name');
+            this.assert(typeof firstType.base_fare === 'number', 'Vehicle type should have base_fare');
+            this.assert(typeof firstType.per_mile_rate === 'number', 'Vehicle type should have per_mile_rate');
+            this.assert(typeof firstType.per_minute_rate === 'number', 'Vehicle type should have per_minute_rate');
+            
+            this.logResult('Get Vehicle Types', 'Passed');
+        } catch (error) {
+            this.logResult('Get Vehicle Types', 'Failed', error.message);
+            throw error;
         }
     }
 
@@ -135,6 +165,8 @@ class RideRequestIntegrationTests {
         const resultsDiv = document.getElementById('testResults');
         resultsDiv.innerHTML = '';
 
+        let allPassed = true;
+
         this.testResults.forEach(result => {
             const resultElement = document.createElement('div');
             resultElement.className = `test-result ${result.status.toLowerCase()}`;
@@ -144,10 +176,14 @@ class RideRequestIntegrationTests {
                 ${result.error ? `<p class="error">Error: ${result.error}</p>` : ''}
             `;
             resultsDiv.appendChild(resultElement);
+
+            if (result.status === 'Failed') {
+                allPassed = false;
+            }
         });
 
-        // Add warning about required setup
-        if (this.testResults.some(result => result.status === 'Failed')) {
+        // Add warning about required setup if tests failed
+        if (!allPassed) {
             const setupWarning = document.createElement('div');
             setupWarning.className = 'setup-warning';
             setupWarning.innerHTML = `
@@ -160,6 +196,21 @@ class RideRequestIntegrationTests {
                 </ul>
             `;
             resultsDiv.insertBefore(setupWarning, resultsDiv.firstChild);
+        }
+
+        // Update test tracking status
+        if (window.updateTestTypeStatus) {
+            const status = allPassed ? 'test-passed' : 'test-failed';
+            window.updateTestTypeStatus(this.featureName, 'integration', status);
+            
+            // Also update the overall feature status if both unit and integration tests are complete
+            const unitStatus = localStorage.getItem(`unit-test-${this.featureName}`);
+            if (unitStatus) {
+                const overallStatus = (status === 'test-passed' && unitStatus === 'test-passed') 
+                    ? 'passed' 
+                    : 'failed';
+                window.updateFeatureStatus(this.featureName, overallStatus);
+            }
         }
     }
 }
