@@ -30,14 +30,28 @@ This directory contains various types of tests for the Wingman application. The 
 
 ## Running Tests
 
-### Unit Tests
+### CLI Test Runner (New!)
+
+The CLI test runner (`cli-runner.js`) provides a command-line interface for running API tests without browser interaction.
+
+```bash
+# Make the script executable
+chmod +x tests/cli-runner.js
+
+# Run the tests
+./tests/cli-runner.js
+```
+
+### Browser-based Tests
+
+#### Unit Tests
 
 ```bash
 # No setup required, just open in browser:
 open tests/unit-tests/ride-requests/index.html
 ```
 
-### Integration Tests
+#### Integration Tests
 
 ```bash
 # 1. Initialize database
@@ -50,12 +64,104 @@ npm run api
 open tests/integration-tests/ride-requests/index.html
 ```
 
-### Scenario Tests
+#### Scenario Tests
 
 ```bash
 # Open specific scenario
 open tests/scenarios/[scenario-name]/index.html
 ```
+
+## Supported Features
+
+The following feature IDs represent core functionality tested by our test suite. These IDs serve as an immutable canon of application features, where any changes may indicate a feature modification or branch requirement.
+
+### Ride Request Features
+
+#### FEAT_RIDE_REQ_001
+
+- **Description**: Create ride request
+- **Endpoint**: POST /api/ride-requests
+- **Validates**:
+  - Required fields validation
+  - Fare calculation
+  - Response structure
+  - Status codes (201 for success)
+
+#### FEAT_RIDE_REQ_002
+
+- **Description**: Retrieve ride request
+- **Endpoint**: GET /api/ride-requests/:id
+- **Validates**:
+  - Correct request retrieval
+  - Data accuracy
+  - Status codes (200 for success, 404 for not found)
+
+#### FEAT_RIDE_REQ_003
+
+- **Description**: Update ride request
+- **Endpoint**: PUT /api/ride-requests/:id
+- **Validates**:
+  - Status updates
+  - Data modifications
+  - Response accuracy
+  - Status codes (200 for success)
+
+#### FEAT_RIDE_REQ_004
+
+- **Description**: Delete ride request
+- **Endpoint**: DELETE /api/ride-requests/:id
+- **Validates**:
+  - Request removal
+  - Proper cleanup
+  - Status codes (204 for success)
+
+### Account Features
+
+#### FEAT_ACCT_001
+
+- **Description**: Account creation
+- **Endpoint**: POST /api/accounts
+- **Validates**:
+  - Required fields validation
+  - Account creation
+  - Response structure
+  - Status codes (201 for success)
+
+#### FEAT_ACCT_002
+
+- **Description**: Account retrieval
+- **Endpoint**: GET /api/accounts/:email
+- **Validates**:
+  - Correct account retrieval
+  - Data accuracy
+  - Status codes (200 for success, 404 for not found)
+
+#### FEAT_ACCT_003
+
+- **Description**: Account updates
+- **Endpoint**: PUT /api/accounts/:email
+- **Validates**:
+  - Field updates
+  - Data accuracy
+  - Status codes (200 for success)
+
+#### FEAT_ACCT_004
+
+- **Description**: Account deletion
+- **Endpoint**: DELETE /api/accounts/:email
+- **Validates**:
+  - Account removal
+  - Proper cleanup
+  - Status codes (204 for success)
+
+#### FEAT_ACCT_005
+
+- **Description**: Duplicate account prevention
+- **Endpoint**: POST /api/accounts
+- **Validates**:
+  - Unique email constraint
+  - Conflict handling
+  - Status codes (409 for conflict)
 
 ## Test Types Comparison
 
@@ -109,6 +215,9 @@ open tests/scenarios/[scenario-name]/index.html
 3. Follow existing patterns for test structure
 4. Include README.md explaining test purpose and setup
 5. Update this main README if adding new test categories
+6. When adding new features, assign a unique feature ID following the pattern:
+   - `FEAT_[CATEGORY]_[NUMBER]`
+   - Example: `FEAT_RIDE_REQ_005` for a new ride request feature
 
 ## Troubleshooting
 
@@ -130,3 +239,10 @@ open tests/scenarios/[scenario-name]/index.html
 - Review all prerequisites
 - Check system configuration
 - Verify all components are running
+
+### CLI Test Runner Issues
+
+- Ensure script is executable (`chmod +x tests/cli-runner.js`)
+- Verify API server is running for integration tests
+- Check Node.js version (requires fetch API support)
+- Review console output for specific test failures
