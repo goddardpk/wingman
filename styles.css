@@ -83,7 +83,7 @@ header {
 .main-nav.show {
     display: flex;
     position: absolute;
-    top: 100%;
+    top: calc(100% + 10px);
     right: 0;
     background-color: var(--secondary-bg);
     border-radius: 8px;
@@ -91,6 +91,8 @@ header {
     flex-direction: column;
     min-width: 200px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    overflow: visible;
 }
 
 .nav-item {
