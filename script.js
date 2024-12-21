@@ -31,9 +31,70 @@ const guestLoginButton = document.querySelector('.guest-login');
 let isLoggedIn = false;
 let currentUser = null;
 
+// Cookie handling functions
+function setCookie(name, value, days) {
+    const expires = new Date();
+    expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+    document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
+}
+
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
+}
+
+function deleteCookie(name) {
+    document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
+}
+
+// Check for test account cookie and load saved addresses on load
+window.addEventListener('DOMContentLoaded', async () => {
+    const testEmail = getCookie('testAccount');
+    if (testEmail === 'test@wingman.com') {
+        try {
+            const response = await fetch('/api/accounts/test@wingman.com');
+            if (response.ok) {
+                const userData = await response.json();
+                updateLoginState(true, {
+                    name: userData.full_name,
+                    email: userData.email,
+                    picture: 'https://ui-avatars.com/api/?name=Test+User'
+                });
+            }
+        } catch (error) {
+            console.error('Error loading test account:', error);
+        }
+    }
+    
+    // Load saved addresses from localStorage
+    loadSavedAddresses();
+});
+
+// Load saved addresses from localStorage
+function loadSavedAddresses() {
+    const homeAddress = localStorage.getItem('homeAddress');
+    const workAddress = localStorage.getItem('workAddress');
+    
+    if (homeAddress) {
+        pickupAutocomplete.setPresetAddress('home', homeAddress);
+    }
+    if (workAddress) {
+        destinationAutocomplete.setPresetAddress('work', workAddress);
+    }
+}
+
 // Open modal
 loginButton.addEventListener('click', () => {
-    loginModal.classList.add('show');
+    if (isLoggedIn) {
+        // If logged in, clicking should log out
+        updateLoginState(false, null);
+        deleteCookie('testAccount');
+        showStatus('Logged out successfully', 'success');
+    } else {
+        loginModal.classList.add('show');
+    }
 });
 
 // Close modal when clicking close button
@@ -50,9 +111,7 @@ loginModal.addEventListener('click', (e) => {
 
 // Mock Google OAuth login
 googleLoginButton.addEventListener('click', async () => {
-    // Simulate OAuth flow
     try {
-        // In a real implementation, this would redirect to Google's OAuth page
         await mockGoogleAuth();
         loginModal.classList.remove('show');
         updateLoginState(true, {
@@ -66,15 +125,25 @@ googleLoginButton.addEventListener('click', async () => {
     }
 });
 
-// Guest login
-guestLoginButton.addEventListener('click', () => {
-    updateLoginState(true, {
-        name: 'Guest User',
-        email: 'guest@wingman.com',
-        picture: 'https://ui-avatars.com/api/?name=Guest+User'
-    });
-    loginModal.classList.remove('show');
-    showStatus('Logged in as guest', 'success');
+// Guest login (now uses test account)
+guestLoginButton.addEventListener('click', async () => {
+    try {
+        const response = await fetch('/api/accounts/test@wingman.com');
+        if (response.ok) {
+            const userData = await response.json();
+            updateLoginState(true, {
+                name: userData.full_name,
+                email: userData.email,
+                picture: 'https://ui-avatars.com/api/?name=Test+User'
+            });
+            setCookie('testAccount', 'test@wingman.com', 7); // Set cookie for 7 days
+            loadSavedAddresses();
+            loginModal.classList.remove('show');
+            showStatus('Logged in as test user', 'success');
+        }
+    } catch (error) {
+        showStatus('Failed to login as test user', 'error');
+    }
 });
 
 function updateLoginState(loggedIn, user) {
@@ -90,7 +159,6 @@ function updateLoginState(loggedIn, user) {
 // Mock Google Auth (simulates OAuth flow)
 function mockGoogleAuth() {
     return new Promise((resolve) => {
-        // Simulate network delay
         setTimeout(resolve, 1000);
     });
 }
@@ -103,9 +171,48 @@ class AddressAutocomplete {
         this.debounceTimer = null;
         this.selectedLocation = null;
         this.isLoading = false;
+        this.presetAddresses = new Map();
 
         this.setupDropdown();
         this.setupEventListeners();
+    }
+
+    setPresetAddress(type, address) {
+        this.presetAddresses.set(type, address);
+        
+        // Get quick-locations container
+        const quickLocations = document.querySelector('.quick-locations');
+        if (!quickLocations) return;
+        
+        // Find or create the button
+        const buttonClass = `quick-location-btn ${type}-btn`;
+        let button = quickLocations.querySelector(`.${type}-btn`);
+        
+        if (!button) {
+            button = document.createElement('button');
+            button.className = buttonClass;
+            button.innerHTML = `<i class="fas fa-${type === 'home' ? 'home' : 'building'}"></i> ${type.charAt(0).toUpperCase() + type.slice(1)}`;
+            quickLocations.appendChild(button);
+        }
+        
+        // Update button click handler
+        button.onclick = () => {
+            if (this.input.id === 'pickup' && type === 'home') {
+                this.input.value = address;
+                this.selectedLocation = {
+                    name: address,
+                    lat: 0,
+                    lon: 0
+                };
+            } else if (this.input.id === 'destination' && type === 'work') {
+                this.input.value = address;
+                this.selectedLocation = {
+                    name: address,
+                    lat: 0,
+                    lon: 0
+                };
+            }
+        };
     }
 
     setupDropdown() {
@@ -133,7 +240,7 @@ class AddressAutocomplete {
         // Focus event
         this.input.addEventListener('focus', () => {
             this.input.parentElement.classList.add('active');
-            if (this.dropdown.children.length > 1) { // More than just loading indicator
+            if (this.dropdown.children.length > 1) {
                 this.showDropdown();
             }
         });
@@ -209,7 +316,6 @@ class AddressAutocomplete {
             const item = document.createElement('div');
             item.className = 'autocomplete-item';
             
-            // Format the display address
             const address = this.formatAddress(result.address);
             item.textContent = address;
             
@@ -233,28 +339,24 @@ class AddressAutocomplete {
     formatAddress(addressObj) {
         const parts = [];
         
-        // Add house number and street
         if (addressObj.house_number && addressObj.road) {
             parts.push(`${addressObj.house_number} ${addressObj.road}`);
         } else if (addressObj.road) {
             parts.push(addressObj.road);
         }
 
-        // Add neighborhood or suburb
         if (addressObj.suburb) {
             parts.push(addressObj.suburb);
         } else if (addressObj.neighbourhood) {
             parts.push(addressObj.neighbourhood);
         }
 
-        // Add city
         if (addressObj.city) {
             parts.push(addressObj.city);
         } else if (addressObj.town) {
             parts.push(addressObj.town);
         }
 
-        // Add state and country
         if (addressObj.state) {
             parts.push(addressObj.state);
         }
@@ -295,7 +397,7 @@ class AddressAutocomplete {
     }
 
     clearDropdown() {
-        while (this.dropdown.children.length > 1) { // Keep loading indicator
+        while (this.dropdown.children.length > 1) {
             this.dropdown.removeChild(this.dropdown.lastChild);
         }
     }
@@ -327,9 +429,7 @@ let selectedRide = null;
 
 rideCards.forEach(card => {
     card.addEventListener('click', () => {
-        // Remove selected class from all cards
         rideCards.forEach(c => c.classList.remove('selected'));
-        // Add selected class to clicked card
         card.classList.add('selected');
         selectedRide = card.dataset.ride;
     });
@@ -355,7 +455,6 @@ bookButton.addEventListener('click', () => {
         return;
     }
 
-    // Here you would typically send the coordinates to your backend
     console.log('Booking ride with coordinates:', {
         pickup: {
             lat: pickupLocation.lat,
@@ -370,7 +469,6 @@ bookButton.addEventListener('click', () => {
         rideType: selectedRide
     });
 
-    // Simulate booking success
     showStatus('Booking successful! Your ride is on the way.', 'success');
 });
 
@@ -378,7 +476,6 @@ function showStatus(message, type) {
     statusMessage.textContent = message;
     statusMessage.className = 'status-message ' + type;
     
-    // Hide message after 5 seconds
     setTimeout(() => {
         statusMessage.className = 'status-message';
     }, 5000);

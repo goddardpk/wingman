@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', async function () {
                 document.getElementById('fullName').value = userData.full_name;
                 document.getElementById('email').value = userData.email;
                 document.getElementById('phone').value = userData.phone;
+                document.getElementById('homeAddress').value = userData.home_address || '';
+                document.getElementById('workAddress').value = userData.work_address || '';
                 
                 // Load payment methods
                 const paymentMethods = await accountsApi.getPaymentMethods(userData.id);
@@ -35,6 +37,8 @@ document.addEventListener('DOMContentLoaded', async function () {
         const fullName = document.getElementById('fullName').value;
         const email = document.getElementById('email').value;
         const phone = document.getElementById('phone').value;
+        const homeAddress = document.getElementById('homeAddress').value;
+        const workAddress = document.getElementById('workAddress').value;
 
         if (!fullName || !email || !phone) {
             showStatus('Please fill in all required fields', 'error');
@@ -42,8 +46,17 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
 
         try {
-            await accountsApi.updateAccount(email, { fullName, phone });
+            await accountsApi.updateAccount(email, { 
+                fullName, 
+                phone,
+                home_address: homeAddress,
+                work_address: workAddress
+            });
             showStatus('Settings saved successfully!', 'success');
+            
+            // Store addresses in localStorage for quick access on main page
+            localStorage.setItem('homeAddress', homeAddress);
+            localStorage.setItem('workAddress', workAddress);
             
             // Update stored email if it changed
             if (email !== userEmail) {

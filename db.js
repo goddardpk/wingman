@@ -128,6 +128,89 @@ const dbOperations = {
         });
     },
 
+    // Saved Addresses operations
+    getSavedAddresses: (accountId) => {
+        const query = 'SELECT * FROM saved_addresses WHERE account_id = ?';
+        logDbOperation('getSavedAddresses', query, [accountId]);
+
+        return new Promise((resolve, reject) => {
+            db.all(query, [accountId], (err, rows) => {
+                if (err) reject(err);
+                console.log('Result: Found', rows?.length || 0, 'saved addresses');
+                resolve(rows);
+            });
+        });
+    },
+
+    addSavedAddress: (accountId, data) => {
+        const query = `INSERT INTO saved_addresses (account_id, address_type, address) 
+                      VALUES (?, ?, ?)`;
+        logDbOperation('addSavedAddress', query, [accountId, data.type, data.address]);
+
+        return new Promise((resolve, reject) => {
+            db.run(query, [accountId, data.type, data.address], function(err) {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                const selectQuery = 'SELECT * FROM saved_addresses WHERE id = ?';
+                logDbOperation('getAddedAddress', selectQuery, [this.lastID]);
+
+                db.get(selectQuery, [this.lastID], (err, row) => {
+                    if (err) reject(err);
+                    console.log('Result: Added saved address with ID', this.lastID);
+                    resolve(row);
+                });
+            });
+        });
+    },
+
+    updateSavedAddress: (id, data) => {
+        const query = `UPDATE saved_addresses 
+                      SET address_type = ?, address = ? 
+                      WHERE id = ?`;
+        logDbOperation('updateSavedAddress', query, [data.type, data.address, id]);
+
+        return new Promise((resolve, reject) => {
+            db.run(query, [data.type, data.address, id], function(err) {
+                if (err) reject(err);
+                if (this.changes === 0) {
+                    reject(new Error('Address not found'));
+                    return;
+                }
+
+                const selectQuery = 'SELECT * FROM saved_addresses WHERE id = ?';
+                logDbOperation('getUpdatedAddress', selectQuery, [id]);
+
+                db.get(selectQuery, [id], (err, row) => {
+                    if (err) reject(err);
+                    console.log('Result: Updated saved address with ID', id);
+                    resolve(row);
+                });
+            });
+        });
+    },
+
+    deleteSavedAddress: (id) => {
+        const query = 'DELETE FROM saved_addresses WHERE id = ?';
+        logDbOperation('deleteSavedAddress', query, [id]);
+
+        return new Promise((resolve, reject) => {
+            db.run(query, [id], function(err) {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                if (this.changes === 0) {
+                    reject(new Error('Address not found'));
+                    return;
+                }
+                console.log('Result: Deleted saved address with ID', id);
+                resolve({ deleted: true });
+            });
+        });
+    },
+
     getPaymentMethods: (accountId) => {
         const query = 'SELECT * FROM payment_methods WHERE account_id = ?';
         logDbOperation('getPaymentMethods', query, [accountId]);
@@ -136,48 +219,6 @@ const dbOperations = {
             db.all(query, [accountId], (err, rows) => {
                 if (err) reject(err);
                 console.log('Result: Found', rows?.length || 0, 'payment methods');
-                resolve(rows);
-            });
-        });
-    },
-
-    // Driver operations
-    getAllDrivers: () => {
-        const query = 'SELECT * FROM drivers ORDER BY status, full_name';
-        logDbOperation('getAllDrivers', query);
-
-        return new Promise((resolve, reject) => {
-            db.all(query, [], (err, rows) => {
-                if (err) reject(err);
-                console.log('Result: Found', rows?.length || 0, 'drivers');
-                resolve(rows);
-            });
-        });
-    },
-
-    searchDrivers: (searchTerm) => {
-        const query = `SELECT * FROM drivers 
-                      WHERE full_name LIKE ? OR driver_id LIKE ?
-                      ORDER BY status, full_name`;
-        logDbOperation('searchDrivers', query, [`%${searchTerm}%`, `%${searchTerm}%`]);
-
-        return new Promise((resolve, reject) => {
-            db.all(query, [`%${searchTerm}%`, `%${searchTerm}%`], (err, rows) => {
-                if (err) reject(err);
-                console.log('Result: Found', rows?.length || 0, 'drivers matching search');
-                resolve(rows);
-            });
-        });
-    },
-
-    filterDriversByStatus: (status) => {
-        const query = 'SELECT * FROM drivers WHERE status = ? ORDER BY full_name';
-        logDbOperation('filterDriversByStatus', query, [status]);
-
-        return new Promise((resolve, reject) => {
-            db.all(query, [status], (err, rows) => {
-                if (err) reject(err);
-                console.log('Result: Found', rows?.length || 0, 'drivers with status', status);
                 resolve(rows);
             });
         });

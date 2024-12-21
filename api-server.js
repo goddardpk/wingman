@@ -69,6 +69,51 @@ app.delete('/api/accounts/:email', async (req, res) => {
     }
 });
 
+// Saved Addresses endpoints
+app.get('/api/addresses/:accountId', async (req, res) => {
+    try {
+        const addresses = await dbOperations.getSavedAddresses(req.params.accountId);
+        res.json(addresses);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.post('/api/addresses/:accountId', async (req, res) => {
+    try {
+        const address = await dbOperations.addSavedAddress(req.params.accountId, req.body);
+        res.status(201).json(address);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
+
+app.put('/api/addresses/:id', async (req, res) => {
+    try {
+        const address = await dbOperations.updateSavedAddress(req.params.id, req.body);
+        res.json(address);
+    } catch (error) {
+        if (error.message === 'Address not found') {
+            res.status(404).json({ error: error.message });
+        } else {
+            res.status(400).json({ error: error.message });
+        }
+    }
+});
+
+app.delete('/api/addresses/:id', async (req, res) => {
+    try {
+        await dbOperations.deleteSavedAddress(req.params.id);
+        res.status(204).send();
+    } catch (error) {
+        if (error.message === 'Address not found') {
+            res.status(404).json({ error: error.message });
+        } else {
+            res.status(500).json({ error: error.message });
+        }
+    }
+});
+
 // Create ride request
 app.post('/api/ride-requests', async (req, res) => {
     try {
