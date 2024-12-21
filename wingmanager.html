@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WingManager - Ride Request Queue</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="app-container retro-theme">
+      <header>
+        <div class="header-content">
+          <div class="logo">
+            <h1><i class="fas fa-car"></i> WingManager</h1>
+          </div>
+        </div>
+      </header>
+
+      <div class="retro-monitor">
+        <div class="monitor-header">
+          <div class="zone-display">
+            <span class="zone-label">ZONE:</span>
+            <span class="zone-value">DOWNTOWN SF</span>
+          </div>
+          <div class="status-display">
+            <span class="status-label">STATUS:</span>
+            <span class="status-value">ACTIVE</span>
+          </div>
+        </div>
+
+        <div class="request-queue">
+          <div class="queue-header">
+            <h2>INCOMING REQUESTS</h2>
+            <div class="queue-stats">
+              <span>ACTIVE: <span class="stat-value">3</span></span>
+              <span>PENDING: <span class="stat-value">5</span></span>
+            </div>
+          </div>
+
+          <div class="request-list" id="requestList">
+            <!-- Sample request items -->
+            <div class="request-item">
+              <div class="request-details">
+                <div class="request-id">REQ-001</div>
+                <div class="request-locations">
+                  <div>FROM: Financial District, 101 California St</div>
+                  <div>TO: SoMa, 123 4th Street</div>
+                </div>
+                <div class="request-info">
+                  <div class="request-time">ETA: 15 mins</div>
+                  <div class="request-distance">Distance: 2.3 miles</div>
+                </div>
+              </div>
+              <div class="request-price">$25.00</div>
+            </div>
+
+            <div class="request-item">
+              <div class="request-details">
+                <div class="request-id">REQ-002</div>
+                <div class="request-locations">
+                  <div>FROM: Union Square, 333 Post St</div>
+                  <div>TO: Marina District, 2100 Chestnut St</div>
+                </div>
+                <div class="request-info">
+                  <div class="request-time">ETA: 20 mins</div>
+                  <div class="request-distance">Distance: 3.1 miles</div>
+                </div>
+              </div>
+              <div class="request-price">$32.50</div>
+            </div>
+
+            <div class="request-item">
+              <div class="request-details">
+                <div class="request-id">REQ-003</div>
+                <div class="request-locations">
+                  <div>FROM: Hayes Valley, 450 Hayes St</div>
+                  <div>TO: Mission District, 2500 Mission St</div>
+                </div>
+                <div class="request-info">
+                  <div class="request-time">ETA: 18 mins</div>
+                  <div class="request-distance">Distance: 2.8 miles</div>
+                </div>
+              </div>
+              <div class="request-price">$28.75</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Request Action Modal -->
+      <div class="retro-modal" id="requestModal">
+        <div class="retro-modal-content">
+          <div class="modal-header">
+            <h3>REQUEST ACTIONS</h3>
+            <button class="close-modal" id="closeModal">&times;</button>
+          </div>
+          <div class="modal-actions">
+            <button class="action-btn accept-btn">
+              <i class="fas fa-check"></i>
+              ACCEPT REQUEST
+            </button>
+            <button class="action-btn decline-btn">
+              <i class="fas fa-times"></i>
+              DECLINE REQUEST
+            </button>
+            <button class="action-btn delegate-btn">
+              <i class="fas fa-share"></i>
+              DELEGATE TO WINGMAN
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="wingmanager.js"></script>
+  </body>
+</html>
