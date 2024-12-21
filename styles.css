@@ -1,68 +1,117 @@
-/* Existing styles */
+/* 
+ * IMPORTANT: This application uses a specific color theme that has been carefully chosen.
+ * Please consult with the development team before making any changes to the color scheme.
+ * Theme colors:
+ * - Primary background: #1a1a1a
+ * - Secondary background: #2d2d2d
+ * - Menu background: #1f1f1f
+ * - Accent color: #4CAF50
+ * - Primary text: #ffffff
+ */
+
+:root {
+    --primary-bg: #1a1a1a;
+    --secondary-bg: #2d2d2d;
+    --menu-bg: #1f1f1f;
+    --accent-color: #4CAF50;
+    --text-primary: #ffffff;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--primary-bg);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
 .app-container {
-    max-width: 1200px;
+    max-width: 600px;
     margin: 0 auto;
     padding: 20px;
 }
 
 header {
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 15px 0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    padding: 15px 0 30px;
 }
 
 .header-content {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    position: relative;
     padding: 0 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .logo h1 {
     margin: 0;
-    font-size: 24px;
-    color: #333;
+    font-size: 32px;
+    color: var(--accent-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .logo i {
-    color: #4CAF50;
+    color: var(--accent-color);
 }
 
 .menu-container {
-    position: relative;
+    position: absolute;
+    right: 20px;
 }
 
 .menu-toggle {
-    display: none;
     background: none;
     border: none;
     font-size: 24px;
-    color: #333;
+    color: var(--text-primary);
     cursor: pointer;
+    padding: 0;
 }
 
 .main-nav {
+    display: none;
+}
+
+.main-nav.show {
     display: flex;
-    gap: 20px;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: var(--secondary-bg);
+    border-radius: 8px;
+    padding: 8px;
+    flex-direction: column;
+    min-width: 200px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .nav-item {
     text-decoration: none;
-    color: #333;
-    padding: 8px 16px;
-    border-radius: 4px;
-    transition: background-color 0.3s;
+    color: var(--text-primary);
+    padding: 12px 16px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .nav-item:hover {
-    background-color: #f5f5f5;
+    background-color: #333;
 }
 
 .location-inputs {
-    margin: 40px 0;
+    background-color: var(--secondary-bg);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
 }
 
 .input-group {
@@ -70,45 +119,67 @@ header {
     margin-bottom: 15px;
 }
 
+.input-group:last-child {
+    margin-bottom: 0;
+}
+
 .input-group i {
     position: absolute;
     left: 15px;
     top: 50%;
     transform: translateY(-50%);
-    color: #666;
+    color: var(--accent-color);
+    font-size: 14px;
 }
 
 .input-group input {
     width: 100%;
     padding: 15px 15px 15px 45px;
-    border: 1px solid #ddd;
+    border: none;
     border-radius: 8px;
     font-size: 16px;
+    background-color: #1a1a1a;
+    color: var(--text-primary);
+    box-sizing: border-box;
 }
 
 .input-group input:focus {
     outline: none;
-    border-color: #4CAF50;
     box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+
+.input-group input::placeholder {
+    color: #888;
 }
 
 .quick-locations {
     display: flex;
     gap: 10px;
-    margin-top: 10px;
+    margin-top: 15px;
 }
 
 .quick-location-btn {
-    background: none;
-    border: 1px solid #ddd;
-    padding: 8px 16px;
-    border-radius: 20px;
+    flex: 1;
+    background-color: #1a1a1a;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: all 0.3s;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 14px;
+    transition: background-color 0.3s;
 }
 
 .quick-location-btn:hover {
-    background-color: #f5f5f5;
+    background-color: #222;
+}
+
+.quick-location-btn i {
+    font-size: 14px;
 }
 
 .ride-options {
@@ -117,40 +188,43 @@ header {
 
 .ride-options h2 {
     margin-bottom: 20px;
-    color: #333;
+    color: var(--text-primary);
+    font-size: 24px;
+    font-weight: 600;
 }
 
 .ride-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .ride-card {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 20px;
+    background: var(--secondary-bg);
+    border: none;
+    border-radius: 12px;
+    padding: 24px;
     cursor: pointer;
     transition: all 0.3s;
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 20px;
 }
 
 .ride-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #333;
 }
 
 .ride-card.selected {
-    border-color: #4CAF50;
-    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+    border: 2px solid var(--accent-color);
+    padding: 22px;
 }
 
 .ride-card i {
-    font-size: 24px;
-    color: #333;
+    font-size: 20px;
+    color: var(--text-primary);
+    width: 30px;
+    text-align: center;
 }
 
 .ride-details {
@@ -158,56 +232,42 @@ header {
 }
 
 .ride-details h3 {
-    margin: 0 0 5px 0;
-    color: #333;
+    margin: 0 0 4px 0;
+    color: var(--text-primary);
+    font-size: 18px;
+    font-weight: 500;
 }
 
 .ride-details p {
     margin: 0;
-    color: #666;
+    color: #888;
     font-size: 14px;
 }
 
 .price {
-    color: #4CAF50;
-    font-weight: bold;
+    color: var(--accent-color);
+    font-weight: 500;
+    font-size: 14px;
+    display: block;
+    margin-top: 4px;
 }
 
 .book-button {
     width: 100%;
-    padding: 15px;
-    background-color: #4CAF50;
+    padding: 16px;
+    background-color: var(--accent-color);
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 12px;
     font-size: 16px;
+    font-weight: 500;
     cursor: pointer;
     transition: background-color 0.3s;
+    margin-top: 20px;
 }
 
 .book-button:hover {
     background-color: #45a049;
-}
-
-.status-message {
-    margin-top: 20px;
-    padding: 15px;
-    border-radius: 8px;
-    text-align: center;
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-
-.status-message.success {
-    background-color: #dff0d8;
-    color: #3c763d;
-    opacity: 1;
-}
-
-.status-message.error {
-    background-color: #f2dede;
-    color: #a94442;
-    opacity: 1;
 }
 
 /* Modal styles */
@@ -229,8 +289,8 @@ header {
 }
 
 .modal-content {
-    background-color: #fff;
-    border-radius: 8px;
+    background-color: var(--secondary-bg);
+    border-radius: 12px;
     width: 90%;
     max-width: 400px;
     padding: 20px;
@@ -246,6 +306,7 @@ header {
 .modal-header h2 {
     margin: 0;
     font-size: 20px;
+    color: var(--text-primary);
 }
 
 .close-modal {
@@ -253,84 +314,21 @@ header {
     border: none;
     font-size: 20px;
     cursor: pointer;
-    color: #666;
-}
-
-.modal-body {
-    text-align: center;
-}
-
-.oauth-button {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background-color: #fff;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    transition: background-color 0.3s;
-}
-
-.oauth-button:hover {
-    background-color: #f5f5f5;
-}
-
-.oauth-button img {
-    width: 20px;
-    height: 20px;
-}
-
-.divider {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    margin: 20px 0;
-}
-
-.divider::before,
-.divider::after {
-    content: '';
-    flex: 1;
-    border-bottom: 1px solid #ddd;
-}
-
-.divider span {
-    padding: 0 10px;
-    color: #666;
-    background-color: #fff;
+    color: var(--text-primary);
 }
 
 /* Responsive styles */
 @media (max-width: 768px) {
-    .menu-toggle {
-        display: block;
+    .app-container {
+        padding: 15px;
     }
-
-    .main-nav {
-        display: none;
-        position: absolute;
-        top: 100%;
-        right: 0;
-        background-color: #fff;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        border-radius: 4px;
-        padding: 10px;
-        flex-direction: column;
-        gap: 5px;
-        min-width: 200px;
+    
+    .ride-card {
+        padding: 20px;
     }
-
-    .main-nav.show {
-        display: flex;
-    }
-
-    .nav-item {
-        width: 100%;
-        box-sizing: border-box;
+    
+    .ride-card.selected {
+        padding: 18px;
     }
 }
 
@@ -340,30 +338,23 @@ header {
     top: 100%;
     left: 0;
     right: 0;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 0 0 8px 8px;
+    background: var(--secondary-bg);
+    border: none;
+    border-radius: 8px;
     max-height: 200px;
     overflow-y: auto;
     z-index: 1000;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 5px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .autocomplete-item {
-    padding: 10px 15px;
+    padding: 12px 15px;
     cursor: pointer;
-    border-bottom: 1px solid #eee;
-}
-
-.autocomplete-item:last-child {
-    border-bottom: none;
+    color: var(--text-primary);
+    transition: background-color 0.3s;
 }
 
 .autocomplete-item:hover {
-    background-color: #f5f5f5;
-}
-
-.input-group.active input {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
+    background-color: #333;
 }
